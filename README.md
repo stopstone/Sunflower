@@ -1,8 +1,8 @@
 # Sunflower
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/1017440b-4051-41b9-b02a-8bb231c1cc62/de74be1a-d3e5-4a96-9e17-abc4ceba8952/Untitled.png)
+<img width="233" alt="image" src="https://github.com/stopstone/Sunflower/assets/77120604/935fb8c7-3c50-47df-b135-b4445eff6f07">
+<img width="233" alt="image" src="https://github.com/stopstone/Sunflower/assets/77120604/a4539497-50a6-4155-81c1-ec53b6a0740f">
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/1017440b-4051-41b9-b02a-8bb231c1cc62/b4d26686-6bd1-42c8-8ff5-1952cf2f65dc/Untitled.png)
 
 ## 구현 목록
 
