@@ -1,7 +1,6 @@
 # Sunflower
 
-<img width="233" alt="image" src="https://github.com/stopstone/Sunflower/assets/77120604/935fb8c7-3c50-47df-b135-b4445eff6f07">
-<img width="233" alt="image" src="https://github.com/stopstone/Sunflower/assets/77120604/a4539497-50a6-4155-81c1-ec53b6a0740f">
+![image](https://github.com/stopstone/Sunflower/assets/77120604/49149d72-84b8-498d-9c96-b0ef82c3560e)
 
 
 ## 구현 목록
