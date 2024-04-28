@@ -1,6 +1,5 @@
-package com.stopstone.sunflower
+package com.stopstone.sunflower.plant
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +7,12 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.stopstone.sunflower.PlantClickListener
+import com.stopstone.sunflower.R
 import com.stopstone.sunflower.data.Plant
 import com.stopstone.sunflower.data.Storage
 
-class PlantAdapter(private val items: List<Plant>) :
+class PlantAdapter(private val items: List<Plant>, private val listener: PlantClickListener) :
     RecyclerView.Adapter<PlantAdapter.PlantViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
@@ -25,7 +26,7 @@ class PlantAdapter(private val items: List<Plant>) :
     }
 
     override fun onBindViewHolder(holder: PlantViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], listener)
     }
 
     class PlantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,8 +34,11 @@ class PlantAdapter(private val items: List<Plant>) :
         private val image: ImageView = itemView.findViewById(R.id.iv_plant_item_image)
         private val btn: ImageButton = itemView.findViewById(R.id.btn_favorite_image)
 
-        fun bind(item: Plant) {
+        fun bind(item: Plant, listener: PlantClickListener) {
             setFavoritePlantDate(item)
+            itemView.setOnClickListener {
+                listener.onPlantClick(item)
+            }
 
             name.text = item.name
             btn.isSelected = item.favorite

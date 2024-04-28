@@ -3,6 +3,8 @@ package com.stopstone.sunflower
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
+import com.stopstone.sunflower.garden.GardenFragment
+import com.stopstone.sunflower.plant.PlantFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
