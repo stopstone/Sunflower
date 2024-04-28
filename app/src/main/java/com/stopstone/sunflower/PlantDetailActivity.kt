@@ -23,6 +23,12 @@ class PlantDetailActivity: AppCompatActivity() {
             plant?.let {
                 Storage.updateFavoriteStatus(it)
                 favoriteButton.isSelected = !favoriteButton.isSelected // 버튼 선택 반전
+
+                if (favoriteButton.isSelected) {
+                    Storage.insertGardenPlantData(Storage.plantList.first { item ->  item.name == plant.name })
+                } else if (!favoriteButton.isSelected) {
+                    Storage.deleteGardenPlantData(Storage.plantList.first { item ->  item.name == plant.name })
+                }
             }
         }
     }

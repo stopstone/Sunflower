@@ -1,5 +1,6 @@
-package com.stopstone.sunflower.plant
+package com.stopstone.sunflower.garden
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,24 +13,24 @@ import com.stopstone.sunflower.R
 import com.stopstone.sunflower.data.Plant
 import com.stopstone.sunflower.data.Storage
 
-class PlantAdapter(private val items: List<Plant>, private val listener: PlantClickListener) :
-    RecyclerView.Adapter<PlantAdapter.PlantViewHolder>() {
+class GardenAdapter(private val items: List<Plant>, private val listener: PlantClickListener) :
+    RecyclerView.Adapter<GardenAdapter.GardenViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlantViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GardenViewHolder {
         val inflatedView =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_plant, parent, false)
-        return PlantViewHolder(inflatedView)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_garden, parent, false)
+        return GardenViewHolder(inflatedView)
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
-    override fun onBindViewHolder(holder: PlantViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: GardenViewHolder, position: Int) {
         holder.bind(items[position], listener)
     }
 
-    inner class PlantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class GardenViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val name: TextView = itemView.findViewById(R.id.tv_plant_item_name)
         private val image: ImageView = itemView.findViewById(R.id.iv_plant_item_image)
         private val btn: ImageButton = itemView.findViewById(R.id.btn_favorite_image)
@@ -54,6 +55,7 @@ class PlantAdapter(private val items: List<Plant>, private val listener: PlantCl
                 } else if (!btn.isSelected) {
                     Storage.deleteGardenPlantData(Storage.plantList.first { it.name == item.name })
                 }
+                notifyDataSetChanged()
             }
         }
     }

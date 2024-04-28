@@ -1,8 +1,12 @@
 package com.stopstone.sunflower.data
 
+import android.util.Log
+
 object Storage {
     var plantList = getPlantData()
         private set
+
+    private val gardenList = mutableListOf<Plant>()
 
     private fun getPlantData(): List<Plant> {
         return mutableListOf(
@@ -26,4 +30,10 @@ object Storage {
             }
         }
     }
+
+    fun insertGardenPlantData(plant: Plant) = gardenList.add(plant)
+
+    fun deleteGardenPlantData(plant: Plant) = gardenList.remove(plant.copy(favorite = true))
+
+    fun getGardenList() = gardenList
 }
