@@ -26,14 +26,18 @@ class PlantFragment: Fragment(), PlantClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         plantList = requireActivity().findViewById(R.id.rv_plant_list)
+    }
+
+    override fun onStart() {
+        super.onStart()
         plantList.adapter = PlantAdapter(Storage.plantList, this)
     }
 
     override fun onPlantClick(plant: Plant) {
+        val data = Storage.plantList.first { it.name == plant.name }
         val intent = Intent(context, PlantDetailActivity::class.java)
-        intent.putExtra("plant", plant::class.java)
+        intent.putExtra("data", data)
         startActivity(intent)
     }
 }
