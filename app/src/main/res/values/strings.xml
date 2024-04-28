@@ -3,4 +3,6 @@
     <string name="tab_label_my_garden">My Garden</string>
     <string name="tab_label_plant_list">Plant List</string>
     <string name="description_menu_image">메뉴</string>
+    <string name="description_plant_image">식물 이미지</string>
+    <string name="description_favorite_image">좋아요 버튼</string>
 </resources>
