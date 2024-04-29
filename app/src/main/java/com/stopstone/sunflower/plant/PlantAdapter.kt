@@ -7,11 +7,11 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.stopstone.sunflower.extention.load
 import com.stopstone.sunflower.PlantClickListener
 import com.stopstone.sunflower.R
 import com.stopstone.sunflower.data.Plant
 import com.stopstone.sunflower.data.Storage
+import com.stopstone.sunflower.extension.setScaleImage
 
 class PlantAdapter(private val items: List<Plant>, private val listener: PlantClickListener) :
     RecyclerView.Adapter<PlantAdapter.PlantViewHolder>() {
@@ -34,7 +34,6 @@ class PlantAdapter(private val items: List<Plant>, private val listener: PlantCl
         private val name: TextView = itemView.findViewById(R.id.tv_plant_item_name)
         private val image: ImageView = itemView.findViewById(R.id.iv_plant_item_image)
         private val btn: ImageButton = itemView.findViewById(R.id.btn_favorite_image)
-        private val context = itemView.context
 
         fun bind(item: Plant, listener: PlantClickListener) {
             setFavoritePlantDate(item)
@@ -43,7 +42,7 @@ class PlantAdapter(private val items: List<Plant>, private val listener: PlantCl
             }
 
             name.text = item.name
-            image.load(item.imageUrl)
+            image.setScaleImage(item.image)
             btn.isSelected = item.favorite
         }
 

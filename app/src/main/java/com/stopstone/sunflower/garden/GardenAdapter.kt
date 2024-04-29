@@ -1,6 +1,5 @@
 package com.stopstone.sunflower.garden
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import com.stopstone.sunflower.PlantClickListener
 import com.stopstone.sunflower.R
 import com.stopstone.sunflower.data.Plant
 import com.stopstone.sunflower.data.Storage
-import com.stopstone.sunflower.extention.load
+import com.stopstone.sunflower.extension.setScaleImage
 
 class GardenAdapter(private val items: List<Plant>, private val listener: PlantClickListener) :
     RecyclerView.Adapter<GardenAdapter.GardenViewHolder>() {
@@ -43,7 +42,7 @@ class GardenAdapter(private val items: List<Plant>, private val listener: PlantC
             }
 
             name.text = item.name
-            image.load(item.imageUrl)
+            image.setScaleImage(item.image)
             btn.isSelected = item.favorite
         }
 
