@@ -29,8 +29,8 @@ class PlantFragment: Fragment(), PlantClickListener {
         plantList = requireActivity().findViewById(R.id.rv_plant_list)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         plantList.adapter = PlantAdapter(Storage.plantList, this)
     }
 

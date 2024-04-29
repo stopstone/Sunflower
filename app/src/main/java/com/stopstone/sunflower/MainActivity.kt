@@ -7,6 +7,7 @@ import com.stopstone.sunflower.garden.GardenFragment
 import com.stopstone.sunflower.plant.PlantFragment
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var tabLayout: TabLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -14,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTabLayout() {
-        val tabLayout = findViewById<TabLayout>(R.id.tab_main)
+        tabLayout = findViewById(R.id.tab_main)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
