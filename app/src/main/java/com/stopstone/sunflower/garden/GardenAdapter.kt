@@ -12,6 +12,7 @@ import com.stopstone.sunflower.PlantClickListener
 import com.stopstone.sunflower.R
 import com.stopstone.sunflower.data.Plant
 import com.stopstone.sunflower.data.Storage
+import com.stopstone.sunflower.extention.load
 
 class GardenAdapter(private val items: List<Plant>, private val listener: PlantClickListener) :
     RecyclerView.Adapter<GardenAdapter.GardenViewHolder>() {
@@ -42,6 +43,7 @@ class GardenAdapter(private val items: List<Plant>, private val listener: PlantC
             }
 
             name.text = item.name
+            image.load(item.imageUrl)
             btn.isSelected = item.favorite
         }
 

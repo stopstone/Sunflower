@@ -1,6 +1,6 @@
 package com.stopstone.sunflower.data
 
-import android.util.Log
+import com.stopstone.sunflower.R
 
 object Storage {
     var plantList = getPlantData()
@@ -10,14 +10,14 @@ object Storage {
 
     private fun getPlantData(): List<Plant> {
         return mutableListOf(
-            Plant("Apple", null, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Avocado", null, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Beet", null, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Bougainvillea", null, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Cilantro", null, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Eggplant", null, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Grape", null, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Hibiscus", null, "Aug 24 2024", "Aug 24 2024", false),
+            Plant("Apple", R.drawable.plant_apple, "Aug 24 2024", "Aug 24 2024", false),
+            Plant("Avocado", R.drawable.plant_avocado, "Aug 24 2024", "Aug 24 2024", false),
+            Plant("Beet", R.drawable.plant_beet, "Aug 24 2024", "Aug 24 2024", false),
+            Plant("Bougainvillea", R.drawable.plant_bougainvillea, "Aug 24 2024", "Aug 24 2024", false),
+            Plant("Cilantro", R.drawable.plant_cilantro, "Aug 24 2024", "Aug 24 2024", false),
+            Plant("Eggplant", R.drawable.plant_eggplant, "Aug 24 2024", "Aug 24 2024", false),
+            Plant("Grape", R.drawable.plant_grape, "Aug 24 2024", "Aug 24 2024", false),
+            Plant("Hibiscus", R.drawable.plant_hibiscus, "Aug 24 2024", "Aug 24 2024", false),
         )
     }
 
