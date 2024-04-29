@@ -4,8 +4,7 @@ import java.io.Serializable
 
 data class Plant(
     val name: String,
-    val imageUrl: Int?,
-    val planted: String,
-    val lastWatered: String,
+    val image: Int?,
+    val description: String,
     val favorite: Boolean
 ) : Serializable

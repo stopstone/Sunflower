@@ -10,14 +10,14 @@ object Storage {
 
     private fun getPlantData(): List<Plant> {
         return mutableListOf(
-            Plant("Apple", R.drawable.plant_apple, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Avocado", R.drawable.plant_avocado, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Beet", R.drawable.plant_beet, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Bougainvillea", R.drawable.plant_bougainvillea, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Cilantro", R.drawable.plant_cilantro, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Eggplant", R.drawable.plant_eggplant, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Grape", R.drawable.plant_grape, "Aug 24 2024", "Aug 24 2024", false),
-            Plant("Hibiscus", R.drawable.plant_hibiscus, "Aug 24 2024", "Aug 24 2024", false),
+            Plant("Apple", R.drawable.plant_apple, "The Apple Description", false),
+            Plant("Avocado", R.drawable.plant_avocado, "The Avocado Description", false),
+            Plant("Beet", R.drawable.plant_beet, "The Beet Description", false),
+            Plant("Bougainvillea", R.drawable.plant_bougainvillea, "The Bougainvillea Description", false),
+            Plant("Cilantro", R.drawable.plant_cilantro, "The Cilantro Description", false),
+            Plant("Eggplant", R.drawable.plant_eggplant, "The Eggplant Description", false),
+            Plant("Grape", R.drawable.plant_grape, "The Grape Description", false),
+            Plant("Hibiscus", R.drawable.plant_hibiscus, "The Hibiscus Description", false),
         )
     }
 
