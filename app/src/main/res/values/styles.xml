@@ -2,13 +2,15 @@
 <resources>
 
     <style name="AppCardView" parent="@style/Widget.MaterialComponents.CardView">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay
-        </item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="android:backgroundTint">#BFE3C0</item>
     </style>
 
     <style name="ShapeAppearanceOverlay" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="android:padding">0dp</item>
+        <item name="android:elevation">0dp</item>
         <item name="cornerSizeTopLeft">0dp</item>
         <item name="cornerSizeBottomRight">0dp</item>
     </style>
@@ -17,4 +19,12 @@
         <item name="android:textSize">42sp</item>
     </style>
 
+
+    <style name="AppTextLabel" parent="TextAppearance.Material3.LabelLarge">
+    </style>
+
+    <style name="AppTextLabel.Bold" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textStyle">bold</item>
+
+    </style>
 </resources>

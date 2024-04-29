@@ -5,19 +5,18 @@
     style="@style/AppCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:backgroundTint="#BFE3C0">
+    android:layout_margin="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
 
         <ImageView
             android:id="@+id/iv_plant_item_image"
             android:layout_width="0dp"
-            android:layout_height="130dp"
+            android:layout_height="70dp"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@id/tv_plant_item_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,13 +25,11 @@
             android:id="@+id/tv_plant_item_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:layout_marginBottom="14dp"
             android:gravity="center_horizontal"
             android:padding="6dp"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textAppearance="@style/AppTextLabel.Bold"
             app:layout_constraintEnd_toStartOf="@id/btn_favorite_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_plant_item_image"
@@ -51,6 +48,28 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_plant_item_name"
             app:layout_constraintTop_toTopOf="@id/tv_plant_item_name" />
+
+        <TextView
+            android:id="@+id/tv_plant_item_planted_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/label_planted"
+            android:textAppearance="@style/AppTextLabel.Bold"
+            app:layout_constraintEnd_toEndOf="@id/tv_plant_item_name"
+            app:layout_constraintStart_toStartOf="@id/tv_plant_item_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_plant_item_name" />
+
+        <TextView
+            android:id="@+id/tv_plant_item_last_watered_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/label_last_watered"
+            android:textAppearance="@style/AppTextLabel.Bold"
+            app:layout_constraintEnd_toEndOf="@id/tv_plant_item_planted_label"
+            app:layout_constraintStart_toStartOf="@id/tv_plant_item_planted_label"
+            app:layout_constraintTop_toBottomOf="@id/tv_plant_item_planted_label" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

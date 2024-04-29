@@ -5,8 +5,7 @@
     style="@style/AppCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:backgroundTint="#BFE3C0">
+    android:layout_margin="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -29,9 +28,7 @@
             android:layout_marginBottom="14dp"
             android:gravity="center_horizontal"
             android:padding="6dp"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            android:textAppearance="@style/AppTextLabel.Bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_favorite_image"
             app:layout_constraintStart_toStartOf="parent"

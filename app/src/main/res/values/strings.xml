@@ -5,4 +5,7 @@
     <string name="description_menu_image">메뉴</string>
     <string name="description_plant_image">식물 이미지</string>
     <string name="description_favorite_image">좋아요 버튼</string>
+    <string name="label_watering_needs">Watering needs</string>
+    <string name="label_planted">Planted</string>
+    <string name="label_last_watered">Last Watered</string>
 </resources>
