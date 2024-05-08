@@ -1,42 +1,44 @@
-package com.stopstone.sunflower.garden
+package com.stopstone.sunflower.view.plant
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.stopstone.sunflower.PlantClickListener
-import com.stopstone.sunflower.PlantDetailActivity
+import com.stopstone.sunflower.view.common.PlantDetailActivity
 import com.stopstone.sunflower.R
+import com.stopstone.sunflower.SunflowerAdapter
 import com.stopstone.sunflower.data.Plant
 import com.stopstone.sunflower.data.Storage
+import com.stopstone.sunflower.databinding.FragmentPlantBinding
 
-class GardenFragment : Fragment(), PlantClickListener {
-    private lateinit var gardenRecyclerView: RecyclerView
-    private lateinit var adapter: GardenAdapter
-
+class PlantFragment: Fragment(), PlantClickListener {
+    private lateinit var plantList: RecyclerView
+    private var _binding: FragmentPlantBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_garden, container, false)
+    ): View {
+        _binding = FragmentPlantBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        gardenRecyclerView = requireActivity().findViewById(R.id.rv_garden_list)
+//        plantList = view.findViewById(R.id.rv_plant_list)
+        plantList = binding.rvPlantList
+        plantList.adapter = SunflowerAdapter(Storage.plantList as MutableList<Plant>, this, null)
+
+        Log.d("", plantList.toString())
     }
 
-    override fun onResume() {
-        super.onResume()
-        val gardenList = Storage.getGardenList()
-        adapter = GardenAdapter(gardenList, this)
-        gardenRecyclerView.adapter = adapter
-    }
 
     override fun onPlantClick(plant: Plant) {
         val data = Storage.plantList.first { it.name == plant.name }

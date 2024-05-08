@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".view.MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_main"
@@ -47,21 +47,19 @@
 
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_main"
+        android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/appbar_main"
         app:tabIndicatorFullWidth="true">
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab_my_garden"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_my_garden"
             android:text="@string/tab_label_my_garden" />
 
         <com.google.android.material.tabs.TabItem
-            android:id="@+id/tab_plant_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_plant"
@@ -70,9 +68,9 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container_main"
-        android:name="com.stopstone.sunflower.garden.GardenFragment"
+        android:name="com.stopstone.sunflower.view.garden.GardenFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tab_main" />
+        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>
