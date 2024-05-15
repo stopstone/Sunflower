@@ -1,16 +1,16 @@
-package com.stopstone.sunflower.view.common
+package com.stopstone.sunflower.view
 
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.stopstone.sunflower.data.Plant
-import com.stopstone.sunflower.data.Storage
+import com.stopstone.sunflower.data.Movie
 import com.stopstone.sunflower.databinding.ActivityPlantDetailBinding
 import com.stopstone.sunflower.extension.setImage
+import com.stopstone.sunflower.storage.MovieStorage
+import com.stopstone.sunflower.storage.Storage
 
-class PlantDetailActivity : AppCompatActivity() {
+class MovieDetailActivity : AppCompatActivity() {
     private val binding : ActivityPlantDetailBinding by lazy { ActivityPlantDetailBinding.inflate(layoutInflater) }
 
     // PlantDetailActivity에서 보여질 View를 선언
@@ -21,9 +21,8 @@ class PlantDetailActivity : AppCompatActivity() {
 //    private lateinit var favoriteButton: ImageButton
 //    private lateinit var plantWateringNeeds: TextView
 //    private lateinit var plantDescription: TextView
-    private lateinit var plant: Plant
+    private lateinit var movie: Movie
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -32,9 +31,13 @@ class PlantDetailActivity : AppCompatActivity() {
 
         // 클릭한 식물 아이템을 Parcelable 데이터로 받아왔다.
         // getExtra는 파라미터로 name, class를 넘겨줘야 하기 때문에 멤버참조로 class로 넘겨준다.
-        plant = intent.getParcelableExtra("data", Plant::class.java)!!
+        movie = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("data", Movie::class.java)!!
+        } else {
+            intent.getParcelableExtra("data")!!
+        }
 
-        setLayout(plant)
+        setLayout(movie)
         // 선언한 View를 레이아웃의 View와 초기화하는 단계
         // onCreate(): 액티비티가 호출되고 한번만 초기화한다.
 //        plantName = findViewById(R.id.tv_plant_detail_name)
@@ -46,21 +49,22 @@ class PlantDetailActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        Log.d(TAG, "$TAG onResume")
 
         with(binding.btnFavoriteImage) {
             setOnClickListener {
-                Storage.updateFavoriteStatus(plant)
+                MovieStorage.updateFavoriteStatus(movie)
                 isSelected = !isSelected
 
                 when (isSelected) {
-                    true -> Storage.insertGardenPlantData(Storage.plantList.first { item -> item.name == plant.name })
-                    false -> Storage.deleteGardenPlantData(Storage.plantList.first { item -> item.name == plant.name })
+                    true -> Storage.insertGardenPlantData(MovieStorage.movieList.first { item -> item.title == movie.title })
+                    false -> Storage.deleteGardenPlantData(MovieStorage.movieList.first { item -> item.title == movie.title })
                 }
             }
         }
     }
 
-    private fun setLayout(plant: Plant) {
+    private fun setLayout(item: Movie) {
         // plant 데이터를 View에 할당하는 부분
 //        plantName.text = plant.name
 //        plantImage.setImage(plant.image)
@@ -69,11 +73,11 @@ class PlantDetailActivity : AppCompatActivity() {
 //        favoriteButton.isSelected = plant.favorite == true
 
         with(binding) {
-            tvPlantDetailName.text = plant.name
-            ivPlantDetailImage.setImage(plant.image, binding)
-            tvPlantWateringNeedsLabel.text = "every 0 days"
-            tvPlantDetailDescription.text = plant.description
-            btnFavoriteImage.isSelected = plant.favorite == true
+            tvPlantDetailName.text = item.title
+            ivPlantDetailImage.setImage("$BASE_IMAGE${item.poster_path}")
+            tvMovieRatingLabel.text = "release: ${item.release_date}"
+            tvPlantDetailDescription.text = item.overview
+            btnFavoriteImage.isSelected = item.favorite == true
         }
     }
 
@@ -99,6 +103,7 @@ class PlantDetailActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "PlantDetailActivity"
+        const val BASE_IMAGE = "https://image.tmdb.org/t/p/w500"
     }
 }
 

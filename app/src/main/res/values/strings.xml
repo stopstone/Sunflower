@@ -1,11 +1,9 @@
 <resources>
-    <string name="app_name">Sunflower</string>
+    <string name="app_name">Movie</string>
     <string name="tab_label_my_garden">My Garden</string>
-    <string name="tab_label_plant_list">Plant List</string>
+    <string name="tab_label_movie_list">Movie List</string>
     <string name="description_menu_image">메뉴</string>
     <string name="description_plant_image">식물 이미지</string>
     <string name="description_favorite_image">좋아요 버튼</string>
-    <string name="label_watering_needs">Watering needs</string>
-    <string name="label_planted">Planted</string>
-    <string name="label_last_watered">Last Watered</string>
+    <string name="label_rating">Rating</string>
 </resources>

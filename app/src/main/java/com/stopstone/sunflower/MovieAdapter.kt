@@ -4,17 +4,20 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.stopstone.sunflower.data.Plant
-import com.stopstone.sunflower.data.Storage
+import com.stopstone.sunflower.data.Movie
+import com.stopstone.sunflower.storage.MovieStorage
+import com.stopstone.sunflower.storage.Storage
 import com.stopstone.sunflower.databinding.ItemGardenBinding
-import com.stopstone.sunflower.databinding.ItemPlantBinding
+import com.stopstone.sunflower.databinding.ItemMovieBinding
 import com.stopstone.sunflower.extension.setScaleImage
+import com.stopstone.sunflower.listener.OnDataChangedListener
+import com.stopstone.sunflower.listener.PlantClickListener
 
-class SunflowerAdapter(
-    private val items: MutableList<Plant>,
+class MovieAdapter(
     private val listener: PlantClickListener,
     private val onDataChangedListener: OnDataChangedListener?
 ) : RecyclerView.Adapter<ViewHolder>() {
+    private val items = mutableListOf<Movie>()
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position].viewType) {
@@ -46,40 +49,39 @@ class SunflowerAdapter(
         }
     }
 
-    fun updateData(updatedItems: List<Plant>) {
+    fun updateData(updatedItems: List<Movie>) {
         items.clear()
         items.addAll(updatedItems)
         notifyDataSetChanged()
     }
 
-
-    class PlantViewHolder(private val binding: ItemPlantBinding) :
+    class PlantViewHolder(private val binding: ItemMovieBinding) :
         ViewHolder(binding.root) {
 
-        fun bind(item: Plant, listener: PlantClickListener) {
+        fun bind(item: Movie, listener: PlantClickListener) {
             setFavoritePlantDate(item)
             itemView.setOnClickListener {
                 listener.onPlantClick(item)
             }
 
             with(binding) {
-                tvPlantItemName.text = item.name
-                ivPlantItemImage.setScaleImage(item.image, itemView)
+                tvPlantItemName.text = item.title
+                ivPlantItemImage.setScaleImage("${GardenViewHolder.BASE_IMAGE}${item.poster_path}")
                 btnFavoriteImage.isSelected = item.favorite
             }
         }
 
-        private fun setFavoritePlantDate(item: Plant) {
+        private fun setFavoritePlantDate(movie: Movie) {
 
             with(binding.btnFavoriteImage) {
                 setOnClickListener {
                     isSelected = !isSelected // 버튼 선택 반전
-                    Storage.updateFavoriteStatus(item)
+                    MovieStorage.updateFavoriteStatus(movie)
 
                     if (isSelected) {
-                        Storage.insertGardenPlantData(Storage.plantList.first { it.name == item.name })
+                        Storage.insertGardenPlantData(MovieStorage.movieList.first { it.title == movie.title })
                     } else if (!isSelected) {
-                        Storage.deleteGardenPlantData(Storage.plantList.first { it.name == item.name })
+                        Storage.deleteGardenPlantData(MovieStorage.movieList.first { it.title == movie.title })
                     }
                 }
             }
@@ -87,7 +89,7 @@ class SunflowerAdapter(
 
         companion object {
             fun from(parent: ViewGroup): PlantViewHolder {
-                val binding = ItemPlantBinding.inflate(
+                val binding = ItemMovieBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -105,7 +107,7 @@ class SunflowerAdapter(
         ViewHolder(binding.root) {
 
         fun bind(
-            item: Plant,
+            item: Movie,
             listener: PlantClickListener,
         ) {
             setFavoritePlantDate(binding, item)
@@ -114,21 +116,23 @@ class SunflowerAdapter(
             }
 
             with(binding) {
-                tvPlantItemName.text = item.name
-                ivPlantItemImage.setScaleImage(item.image, itemView)
+                tvPlantItemName.text = item.title
+                ivPlantItemImage.setScaleImage("$BASE_IMAGE${item.poster_path}")
+                val rating = "%.1f".format(item.vote_average)
+                tvPlantItemMovieRating.text = "Rating: $rating"
                 btnFavoriteImage.isSelected = item.favorite
             }
         }
 
-        private fun setFavoritePlantDate(binding: ItemGardenBinding, item: Plant) {
+        private fun setFavoritePlantDate(binding: ItemGardenBinding, movie: Movie) {
             with(binding.btnFavoriteImage) {
                 setOnClickListener {
                     isSelected = !isSelected // 버튼 선택 반전
-                    Storage.updateFavoriteStatus(item)
+                    MovieStorage.updateFavoriteStatus(movie)
 
                     when (isSelected) {
-                        true -> Storage.insertGardenPlantData(Storage.plantList.first { it.name == item.name })
-                        false -> Storage.deleteGardenPlantData(Storage.plantList.first { it.name == item.name })
+                        true -> Storage.insertGardenPlantData(MovieStorage.movieList.first { it.title == movie.title })
+                        false -> Storage.deleteGardenPlantData(MovieStorage.movieList.first { it.title == movie.title })
                     }
                     onDataChangedListener?.onDataChanged()
                 }
@@ -136,6 +140,7 @@ class SunflowerAdapter(
         }
 
         companion object {
+            const val BASE_IMAGE = "https://image.tmdb.org/t/p/w500"
             fun from(
                 parent: ViewGroup,
                 dataChangedListener: OnDataChangedListener?

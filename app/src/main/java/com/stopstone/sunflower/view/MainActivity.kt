@@ -5,18 +5,20 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
-import com.stopstone.sunflower.R
 import com.stopstone.sunflower.databinding.ActivityMainBinding
-import com.stopstone.sunflower.view.garden.GardenFragment
-import com.stopstone.sunflower.view.plant.PlantFragment
 
 class MainActivity : AppCompatActivity() {
     //    private lateinit var tabLayout: TabLayout
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
 
+    // 탭 전환후 복귀 시 리사이클러 뷰 초기화 현상 수정
+    private val gardenFragment = GardenFragment()
+    private val movieFragment = MovieFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        setTabLayout()
+
         Log.d(TAG, "$TAG onCreate")
     }
 
@@ -27,7 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        setTabLayout()
         Log.d(TAG, "$TAG onResume")
     }
 
@@ -52,8 +53,8 @@ class MainActivity : AppCompatActivity() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.let {
                     val fragment = when (it.position) {
-                        0 -> GardenFragment()
-                        1 -> PlantFragment()
+                        0 -> gardenFragment
+                        1 -> movieFragment
                         else -> throw IllegalArgumentException("Invalid tab position")
                     }
                     supportFragmentManager.beginTransaction().apply {

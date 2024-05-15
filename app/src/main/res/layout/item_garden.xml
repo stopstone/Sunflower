@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/iv_plant_item_image"
             android:layout_width="0dp"
-            android:layout_height="70dp"
+            android:layout_height="200dp"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,26 +50,16 @@
             app:layout_constraintTop_toTopOf="@id/tv_plant_item_name" />
 
         <TextView
-            android:id="@+id/tv_plant_item_planted_label"
+            android:id="@+id/tv_plant_item_movie_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/label_planted"
+            android:text="@string/label_rating"
             android:textAppearance="@style/AppTextLabel.Bold"
             app:layout_constraintEnd_toEndOf="@id/tv_plant_item_name"
             app:layout_constraintStart_toStartOf="@id/tv_plant_item_name"
             app:layout_constraintTop_toBottomOf="@id/tv_plant_item_name" />
 
-        <TextView
-            android:id="@+id/tv_plant_item_last_watered_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/label_last_watered"
-            android:textAppearance="@style/AppTextLabel.Bold"
-            app:layout_constraintEnd_toEndOf="@id/tv_plant_item_planted_label"
-            app:layout_constraintStart_toStartOf="@id/tv_plant_item_planted_label"
-            app:layout_constraintTop_toBottomOf="@id/tv_plant_item_planted_label" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

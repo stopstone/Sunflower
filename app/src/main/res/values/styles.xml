@@ -23,8 +23,11 @@
     <style name="AppTextLabel" parent="TextAppearance.Material3.LabelLarge">
     </style>
 
-    <style name="AppTextLabel.Bold" parent="TextAppearance.Material3.LabelLarge">
+    <style name="AppTextLabel.Bold">
         <item name="android:textStyle">bold</item>
-
     </style>
+
+        <style name="AppTextLabel.S16">
+            <item name="android:textSize">16sp</item>
+        </style>
 </resources>
