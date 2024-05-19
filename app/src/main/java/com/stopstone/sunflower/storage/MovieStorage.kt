@@ -13,7 +13,7 @@ object MovieStorage {
 
     fun loadMovies(callback: ((List<Movie>) -> Unit)?)     {
         // API 호출
-        TMDBConnection.getService().getPopularMovies(startPage).enqueue(object : Callback<MovieResponse> {
+        TMDBConnection.instance.getService().getPopularMovies(startPage).enqueue(object : Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 response.body()?.results?.let {
                     movieList.addAll(it)
