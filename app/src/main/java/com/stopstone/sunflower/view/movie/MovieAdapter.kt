@@ -1,4 +1,4 @@
-package com.stopstone.sunflower
+package com.stopstone.sunflower.view.movie
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

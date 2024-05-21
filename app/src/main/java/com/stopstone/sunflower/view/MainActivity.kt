@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.stopstone.sunflower.databinding.ActivityMainBinding
+import com.stopstone.sunflower.view.movie.MovieFragment
 
 class MainActivity : AppCompatActivity() {
     //    private lateinit var tabLayout: TabLayout

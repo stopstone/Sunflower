@@ -1,7 +1,8 @@
-package com.stopstone.sunflower
+package com.stopstone.sunflower.base
 
 import android.app.Application
 import android.util.Log
+import com.stopstone.sunflower.presenter.MovieContract
 import com.stopstone.sunflower.storage.MovieStorage
 
 class MovieApplication : Application() {

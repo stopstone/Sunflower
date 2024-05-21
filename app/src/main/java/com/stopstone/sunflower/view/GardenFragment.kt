@@ -10,11 +10,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.stopstone.sunflower.listener.OnDataChangedListener
 import com.stopstone.sunflower.listener.PlantClickListener
-import com.stopstone.sunflower.MovieAdapter
 import com.stopstone.sunflower.data.Movie
 import com.stopstone.sunflower.storage.MovieStorage
 import com.stopstone.sunflower.storage.Storage
 import com.stopstone.sunflower.databinding.FragmentGardenBinding
+import com.stopstone.sunflower.view.movie.MovieAdapter
 
 
 // 좋아요 누른 식물 목록, Fragment()를 상속받는다. PlantClickListener 인터페이스를 상속받는다.

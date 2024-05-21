@@ -8,16 +8,15 @@ import retrofit2.Callback
 import retrofit2.Response
 
 object MovieStorage {
-    private var startPage = 1
+    private var startPage = 1 //
     var movieList: MutableList<Movie> = mutableListOf()
 
-    fun loadMovies(callback: ((List<Movie>) -> Unit)?)     {
+    fun loadMovies(callback: ((List<Movie>) -> Unit)?) {
         // API 호출
-        TMDBConnection.instance.getService().getPopularMovies(startPage).enqueue(object : Callback<MovieResponse> {
+        TMDBConnection.instance.getService().getPopularMovies(startPage++).enqueue(object : Callback<MovieResponse> {
             override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
                 response.body()?.results?.let {
                     movieList.addAll(it)
-                    startPage++ // 페이지 번호 증가
                     callback?.let { callback -> callback(movieList) }
                 }
             }

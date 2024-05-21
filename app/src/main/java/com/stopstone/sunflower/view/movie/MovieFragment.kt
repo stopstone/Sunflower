@@ -1,25 +1,29 @@
-package com.stopstone.sunflower.view
+package com.stopstone.sunflower.view.movie
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.stopstone.sunflower.listener.PlantClickListener
-import com.stopstone.sunflower.MovieAdapter
 import com.stopstone.sunflower.data.Movie
 import com.stopstone.sunflower.databinding.FragmentMovieBinding
+import com.stopstone.sunflower.presenter.MovieContract
+import com.stopstone.sunflower.presenter.MoviePresenter
 import com.stopstone.sunflower.storage.MovieStorage
+import com.stopstone.sunflower.view.MovieDetailActivity
 
-class MovieFragment : Fragment(), PlantClickListener {
+class MovieFragment : Fragment(), PlantClickListener, MovieContract.MovieView {
     //    private lateinit var plantList: RecyclerView
     private var _binding: FragmentMovieBinding? = null
     private val binding get() = _binding!!
     private val adapter: MovieAdapter by lazy {
         MovieAdapter(this, null)
     }
+    private val presenter: MoviePresenter by lazy { MoviePresenter(this) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,9 +49,8 @@ class MovieFragment : Fragment(), PlantClickListener {
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (!binding.rvPlantList.canScrollVertically(1)) {   //최하단에 오면
-                    MovieStorage.loadMovies { movieList ->
-                        adapter.updateData(movieList)
-                    }
+                    presenter.loadMovieList()
+                    Log.d("MovieFragment", "canScrollVertically")
                 }
             }
         })
@@ -59,5 +62,9 @@ class MovieFragment : Fragment(), PlantClickListener {
         val intent = Intent(context, MovieDetailActivity::class.java)
         intent.putExtra("data", data)
         startActivity(intent)
+    }
+
+    override fun showMovieList(movie: List<Movie>) {
+        adapter.updateData(movie)
     }
 }
