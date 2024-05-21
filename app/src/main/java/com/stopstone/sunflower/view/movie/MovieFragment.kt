@@ -2,15 +2,13 @@ package com.stopstone.sunflower.view.movie
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
-import com.stopstone.sunflower.listener.PlantClickListener
 import com.stopstone.sunflower.data.Movie
 import com.stopstone.sunflower.databinding.FragmentMovieBinding
+import com.stopstone.sunflower.listener.PlantClickListener
 import com.stopstone.sunflower.presenter.MovieContract
 import com.stopstone.sunflower.presenter.MoviePresenter
 import com.stopstone.sunflower.storage.MovieStorage
@@ -44,17 +42,24 @@ class MovieFragment : Fragment(), PlantClickListener, MovieContract.MovieView {
         super.onResume()
         adapter.updateData(MovieStorage.movieList)
 
-        binding.rvPlantList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                if (!binding.rvPlantList.canScrollVertically(1)) {   //최하단에 오면
-                    presenter.loadMovieList()
-                    Log.d("MovieFragment", "canScrollVertically")
-                }
+        binding.rvPlantList.setOnScrollChangeListener {  v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (binding.rvPlantList.canScrollVertically(1)) {
+                //수직 기준 direction 값이 1이면 하단 방향 , -1이면 상단 방향
+                presenter.loadMovieList()
             }
-        })
+        }
 
+//        binding.rvPlantList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//
+//                if (!binding.rvPlantList.canScrollVertically(1)) {   //최하단에 오면
+//                    presenter.loadMovieList()
+//                }
+//                Log.d("MovieFragment", "canScrollVertically")
+//
+//            }
+//        })
     }
 
     override fun onPlantClick(plant: Movie) {
