@@ -2,6 +2,7 @@ package com.stopstone.sunflower.view.movie
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.stopstone.sunflower.data.Movie
@@ -14,7 +15,7 @@ import com.stopstone.sunflower.listener.MovieClickListener
 
 class MovieAdapter(
     private val listener: MovieClickListener,
-    private val onDataChangedListener: OnDataChangedListener?
+    private val onDataChangedListener: OnDataChangedListener?,
 ) : RecyclerView.Adapter<ViewHolder>() {
     private val items = mutableListOf<Movie>()
 
@@ -74,8 +75,11 @@ class MovieAdapter(
 
             with(binding.btnFavoriteImage) {
                 setOnClickListener {
-                    isSelected = !isSelected // 버튼 선택 반전
-                    Storage.updateFavoriteStatus(movie)
+//                    isSelected = !isSelected // 버튼 선택 반전
+//                    Storage.updateFavoriteStatus(movie)
+                    Storage.updateFavoriteStatus(movie).also {
+                        isSelected = Storage.movieList.first { it.title == movie.title }.favorite
+                    }
 
                     if (isSelected) {
                         Storage.insertGardenPlantData(Storage.movieList.first { it.title == movie.title })
@@ -100,7 +104,7 @@ class MovieAdapter(
 
     class GardenViewHolder(
         private val binding: ItemGardenBinding,
-        private val onDataChangedListener: OnDataChangedListener?
+        private val onDataChangedListener: OnDataChangedListener?,
     ) :
 
         ViewHolder(binding.root) {
@@ -126,8 +130,12 @@ class MovieAdapter(
         private fun setFavoritePlantDate(binding: ItemGardenBinding, movie: Movie) {
             with(binding.btnFavoriteImage) {
                 setOnClickListener {
-                    isSelected = !isSelected // 버튼 선택 반전
-                    Storage.updateFavoriteStatus(movie)
+                    //isSelected = !isSelected // 버튼 선택 반전
+                    //Storage.updateFavoriteStatus(movie)
+                    Storage.updateFavoriteStatus(movie).also {
+                        isSelected = Storage.movieList.first { it.title == movie.title }.favorite
+                    } // 상태 업데이트 이후 리스트에서 해당 객체의 상태값을 다시 받아온다.
+                    // 상태가 지워지는 현상은 수정된 듯 히지만, 다른 방법이 있을 것 같다.
 
                     when (isSelected) {
                         true -> Storage.insertGardenPlantData(Storage.movieList.first { it.title == movie.title })
@@ -142,7 +150,7 @@ class MovieAdapter(
             const val BASE_IMAGE = "https://image.tmdb.org/t/p/w500"
             fun from(
                 parent: ViewGroup,
-                dataChangedListener: OnDataChangedListener?
+                dataChangedListener: OnDataChangedListener?,
             ): GardenViewHolder {
                 val binding =
                     ItemGardenBinding.inflate(

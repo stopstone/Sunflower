@@ -42,12 +42,14 @@ class MovieDetailActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "$TAG onResume")
-
         with(binding.btnFavoriteImage) {
-            setOnClickListener {
-                Storage.updateFavoriteStatus(movie)
-                isSelected = !isSelected
+            isSelected = movie.favorite
 
+            setOnClickListener {
+                Storage.updateFavoriteStatus(movie).apply {
+                    movie = Storage.movieList.first { item -> item.title == movie.title }
+                    isSelected = movie.favorite
+                }
                 when (isSelected) {
                     true -> Storage.insertGardenPlantData(Storage.movieList.first { item -> item.title == movie.title })
                     false -> Storage.deleteGardenPlantData(Storage.movieList.first { item -> item.title == movie.title })
