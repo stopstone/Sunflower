@@ -5,16 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.stopstone.sunflower.data.Movie
-import com.stopstone.sunflower.storage.MovieStorage
 import com.stopstone.sunflower.storage.Storage
 import com.stopstone.sunflower.databinding.ItemGardenBinding
 import com.stopstone.sunflower.databinding.ItemMovieBinding
 import com.stopstone.sunflower.extension.setScaleImage
 import com.stopstone.sunflower.listener.OnDataChangedListener
-import com.stopstone.sunflower.listener.PlantClickListener
+import com.stopstone.sunflower.listener.MovieClickListener
 
 class MovieAdapter(
-    private val listener: PlantClickListener,
+    private val listener: MovieClickListener,
     private val onDataChangedListener: OnDataChangedListener?
 ) : RecyclerView.Adapter<ViewHolder>() {
     private val items = mutableListOf<Movie>()
@@ -58,10 +57,10 @@ class MovieAdapter(
     class PlantViewHolder(private val binding: ItemMovieBinding) :
         ViewHolder(binding.root) {
 
-        fun bind(item: Movie, listener: PlantClickListener) {
+        fun bind(item: Movie, listener: MovieClickListener) {
             setFavoritePlantDate(item)
             itemView.setOnClickListener {
-                listener.onPlantClick(item)
+                listener.onMovieClick(item)
             }
 
             with(binding) {
@@ -76,12 +75,12 @@ class MovieAdapter(
             with(binding.btnFavoriteImage) {
                 setOnClickListener {
                     isSelected = !isSelected // 버튼 선택 반전
-                    MovieStorage.updateFavoriteStatus(movie)
+                    Storage.updateFavoriteStatus(movie)
 
                     if (isSelected) {
-                        Storage.insertGardenPlantData(MovieStorage.movieList.first { it.title == movie.title })
+                        Storage.insertGardenPlantData(Storage.movieList.first { it.title == movie.title })
                     } else if (!isSelected) {
-                        Storage.deleteGardenPlantData(MovieStorage.movieList.first { it.title == movie.title })
+                        Storage.deleteGardenPlantData(Storage.movieList.first { it.title == movie.title })
                     }
                 }
             }
@@ -108,11 +107,11 @@ class MovieAdapter(
 
         fun bind(
             item: Movie,
-            listener: PlantClickListener,
+            listener: MovieClickListener,
         ) {
             setFavoritePlantDate(binding, item)
             itemView.setOnClickListener {
-                listener.onPlantClick(item)
+                listener.onMovieClick(item)
             }
 
             with(binding) {
@@ -128,11 +127,11 @@ class MovieAdapter(
             with(binding.btnFavoriteImage) {
                 setOnClickListener {
                     isSelected = !isSelected // 버튼 선택 반전
-                    MovieStorage.updateFavoriteStatus(movie)
+                    Storage.updateFavoriteStatus(movie)
 
                     when (isSelected) {
-                        true -> Storage.insertGardenPlantData(MovieStorage.movieList.first { it.title == movie.title })
-                        false -> Storage.deleteGardenPlantData(MovieStorage.movieList.first { it.title == movie.title })
+                        true -> Storage.insertGardenPlantData(Storage.movieList.first { it.title == movie.title })
+                        false -> Storage.deleteGardenPlantData(Storage.movieList.first { it.title == movie.title })
                     }
                     onDataChangedListener?.onDataChanged()
                 }

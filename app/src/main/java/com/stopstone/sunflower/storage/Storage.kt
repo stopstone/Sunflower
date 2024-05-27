@@ -9,6 +9,7 @@ import com.stopstone.sunflower.data.Movie
  */
 
 object Storage {
+    var movieList: MutableList<Movie> = mutableListOf()
     private val gardenList = mutableListOf<Movie>() // 좋아요 식물 목록을 저장하는 리스트, mutableList로 선언
 
     fun insertGardenPlantData(movie: Movie) = gardenList.add(movie) // 좋아요를 누르면 호출되는 함수, gardenList 뒤에 추가한다.
@@ -17,6 +18,15 @@ object Storage {
 
     fun getGardenList() = gardenList.map { it.copy(viewType = 1)} // 좋아요 목록을 불러오는 함수
 
+    fun updateFavoriteStatus(movie: Movie) {
+        movieList = movieList.map {
+            if (it.title == movie.title)
+                it.copy(favorite = !it.favorite)
+            else {
+                it
+            }
+        }.toMutableList()
+    }
 }
 
 /**
