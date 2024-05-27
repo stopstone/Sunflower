@@ -7,41 +7,25 @@ import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class TMDBConnection private constructor() {
-    private val retrofit: Retrofit
-    init {
-        Log.d("TMDBConnection", "TMDBConnection instance created.")
-        // 앱을 실행할 때 단 한 번 로그가 출력됩니다.
-        // -> 단 한 번 생성된다는 뜻입니다.
-        // 화면 전환 후 복귀해도 다시 생성되지 않습니다.
-    }
+object TMDBConnection {
+    private const val BASE_URL = "https://api.themoviedb.org/3/"
 
-    init {
-        val client = OkHttpClient.Builder()
-            .addInterceptor(HeaderInterceptor())
-            .build()
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(HeaderInterceptor())
+        .build()
 
-        retrofit = Retrofit.Builder()
+    private val instance: Retrofit by lazy {
+        Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
     }
 
-    fun getService(): TMDBService {
-        // instance가 처음 접근될 때 객체를 생성하고,
-        // getService()에서 TMDBService를 반환합니다.
-        return retrofit.create(TMDBService::class.java)
+    val movieService: TMDBService by lazy {
+        instance.create(TMDBService::class.java)
     }
 
-    companion object {
-        private const val BASE_URL = "https://api.themoviedb.org/3/"
-
-        // TMDBConnection이 처음 접근될 때 한 번 생성됩니다.
-        val instance: TMDBConnection by lazy {
-            TMDBConnection()
-        }
-    }
 }
 
 class HeaderInterceptor : Interceptor {

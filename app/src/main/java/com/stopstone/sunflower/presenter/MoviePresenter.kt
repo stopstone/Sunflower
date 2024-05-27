@@ -13,7 +13,7 @@ class MoviePresenter(private val movieView: MovieContract.MovieView) : MovieCont
 
     override fun loadMovieList() {
         // API 호출
-        TMDBConnection.instance.getService().getPopularMovies(++startPage)
+        TMDBConnection.movieService.getPopularMovies(++startPage)
             .enqueue(object : Callback<MovieResponse> {
                 override fun onResponse(
                     call: Call<MovieResponse>,
