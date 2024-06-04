@@ -2,26 +2,20 @@ package com.stopstone.sunflower.view.movie
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.stopstone.sunflower.data.Movie
 import com.stopstone.sunflower.databinding.FragmentMovieBinding
 import com.stopstone.sunflower.listener.MovieClickListener
-import com.stopstone.sunflower.presenter.MovieContract
-import com.stopstone.sunflower.presenter.MoviePresenter
-import com.stopstone.sunflower.storage.Storage
-import com.stopstone.sunflower.view.MovieDetailActivity
-import kotlinx.coroutines.launch
+import com.stopstone.sunflower.view.detail.MovieDetailActivity
 
-class MovieFragment : Fragment(), MovieClickListener, MovieContract.MovieView {
+class MovieFragment : Fragment(), MovieClickListener {
     private var _binding: FragmentMovieBinding? = null
     private val binding get() = _binding!!
-    private val adapter: MovieAdapter by lazy { MovieAdapter(this, null) }
+    private val adapter: MovieAdapter by lazy { MovieAdapter(this) }
     private val viewModel: MovieViewModel by viewModels<MovieViewModel>()
 //    private val presenter: MoviePresenter by lazy { MoviePresenter(this, Storage) }
 
@@ -38,49 +32,26 @@ class MovieFragment : Fragment(), MovieClickListener, MovieContract.MovieView {
         super.onViewCreated(view, savedInstanceState)
         binding.rvPlantList.adapter = adapter
 //        presenter.loadMovieList()
-        viewModel.loadMovieList()
         viewModel.movieList.observe(viewLifecycleOwner) {
-            showMovieList(it)
+            adapter.updateData(it)
         }
 
         adapter.onClick = { movie ->
-            lifecycleScope.launch {
-                val updateList = Storage.movieList.map {
-                    if (it.title == movie.title) {
-                        it.copy(favorite = !it.favorite)
-                    } else {
-                        it
-                    }
-                }
-                Storage.movieList.clear()
-                Storage.movieList.addAll(updateList)
-
-                adapter.updateData(Storage.movieList)
-                adapter.notifyDataSetChanged()
-            }
+            viewModel.updateFavoriteStatus(movie)
         }
     }
 
     override fun onResume() {
         super.onResume()
-        showMovieList(Storage.movieList)
-
+        viewModel.loadMovieList()
         binding.rvPlantList.setOnScrollChangeListener {  v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (binding.rvPlantList.canScrollVertically(1)) {
-//                presenter.loadMovieList()
+                viewModel.loadMovieList()
             }
         }
     }
 
     override fun onMovieClick(movie: Movie) {
-//        presenter.loadMovieDetailPage(movie, context)
-    }
-
-    override fun showMovieList(movie: List<Movie>) {
-        adapter.updateData(movie)
-    }
-
-    override fun showMovieDetailPage(movie: Movie) {
         val intent = Intent(context, MovieDetailActivity::class.java)
         intent.putExtra("data", movie)
         startActivity(intent)

@@ -1,12 +1,10 @@
 package com.stopstone.sunflower.presenter
 
 import android.content.Context
-import android.content.Intent
 import com.stopstone.sunflower.data.Movie
 import com.stopstone.sunflower.data.MovieResponse
 import com.stopstone.sunflower.data.TMDBConnection
 import com.stopstone.sunflower.storage.Storage
-import com.stopstone.sunflower.view.MovieDetailActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

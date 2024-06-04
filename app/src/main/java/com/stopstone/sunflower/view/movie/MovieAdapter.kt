@@ -5,16 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.stopstone.sunflower.data.Movie
-import com.stopstone.sunflower.storage.Storage
 import com.stopstone.sunflower.databinding.ItemGardenBinding
 import com.stopstone.sunflower.databinding.ItemMovieBinding
 import com.stopstone.sunflower.extension.setScaleImage
-import com.stopstone.sunflower.listener.OnDataChangedListener
 import com.stopstone.sunflower.listener.MovieClickListener
 
 class MovieAdapter(
     private val listener: MovieClickListener,
-    private val onDataChangedListener: OnDataChangedListener?,
 ) : RecyclerView.Adapter<ViewHolder>() {
     private val items = mutableListOf<Movie>()
     var onClick: (movie: Movie) -> Unit = {}

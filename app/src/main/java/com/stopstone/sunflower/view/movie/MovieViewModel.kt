@@ -36,4 +36,17 @@ class MovieViewModel: ViewModel() {
                 }
             })
     }
+
+    fun updateFavoriteStatus(movie: Movie) {
+        val updateList = Storage.movieList.map {
+            if (it.title == movie.title) {
+                it.copy(favorite = !it.favorite)
+            } else {
+                it
+            }
+        }
+        Storage.movieList.clear()
+        Storage.movieList.addAll(updateList)
+        _movieList.value = Storage.movieList
+    }
 }
