@@ -75,7 +75,7 @@ class MovieAdapter(
 
             with(binding) {
                 tvPlantItemName.text = item.title
-                ivPlantItemImage.setScaleImage("${GardenViewHolder.BASE_IMAGE}${item.poster_path}")
+                ivPlantItemImage.setScaleImage("${GardenViewHolder.BASE_IMAGE}${item.posterPath}")
                 btnFavoriteImage.isSelected = item.favorite
             }
         }
@@ -108,8 +108,8 @@ class MovieAdapter(
 
             with(binding) {
                 tvPlantItemName.text = item.title
-                ivPlantItemImage.setScaleImage("$BASE_IMAGE${item.poster_path}")
-                val rating = "%.1f".format(item.vote_average)
+                ivPlantItemImage.setScaleImage("$BASE_IMAGE${item.posterPath}")
+                val rating = "%.1f".format(item.voteAverage)
                 tvPlantItemMovieRating.text = "Rating: $rating"
                 btnFavoriteImage.isSelected = item.favorite
             }
