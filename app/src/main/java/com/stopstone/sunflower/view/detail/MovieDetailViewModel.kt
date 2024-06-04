@@ -23,7 +23,7 @@ class MovieDetailViewModel : ViewModel() {
     }
 
     private fun updateMovieInStorage(movie: Movie) {
-        val index = Storage.movieList.indexOfFirst { it.title == movie.title }
+        val index = Storage.movieList.indexOfFirst { it.id == movie.id }
         if (index != -1) {
             Storage.movieList[index] = movie
         }

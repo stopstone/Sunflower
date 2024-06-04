@@ -39,7 +39,7 @@ class MovieViewModel: ViewModel() {
 
     fun updateFavoriteStatus(movie: Movie) {
         val updateList = Storage.movieList.map {
-            if (it.title == movie.title) {
+            if (it.id == movie.id) {
                 it.copy(favorite = !it.favorite)
             } else {
                 it

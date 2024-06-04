@@ -36,7 +36,7 @@ class MoviePresenter(private val movieView: MovieContract.MovieView, private val
     override fun loadMovieDetailPage(movie: Movie, context: Context?) {
         // it == movie를 하면 copy로 인한 메모리 값이 변경되기 때문에 title이 같은 목록을 찾는다.
         // title이 중복된 영화가 있을 수 있으므로 추후 id로 수정할 것
-        val movieDetail = storage.movieList.find { it.title === movie.title } ?: return
+        val movieDetail = storage.movieList.find { it.id === movie.id } ?: return
         movieView.showMovieDetailPage(movieDetail)
     }
 }
