@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.stopstone.sunflower.data.Movie
 import com.stopstone.sunflower.databinding.FragmentMovieBinding
@@ -21,7 +22,8 @@ class MovieFragment : Fragment(), MovieClickListener, MovieContract.MovieView {
     private var _binding: FragmentMovieBinding? = null
     private val binding get() = _binding!!
     private val adapter: MovieAdapter by lazy { MovieAdapter(this, null) }
-    private val presenter: MoviePresenter by lazy { MoviePresenter(this, Storage) }
+    private val viewModel: MovieViewModel by viewModels<MovieViewModel>()
+//    private val presenter: MoviePresenter by lazy { MoviePresenter(this, Storage) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +37,11 @@ class MovieFragment : Fragment(), MovieClickListener, MovieContract.MovieView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvPlantList.adapter = adapter
-        presenter.loadMovieList()
+//        presenter.loadMovieList()
+        viewModel.loadMovieList()
+        viewModel.movieList.observe(viewLifecycleOwner) {
+            showMovieList(it)
+        }
 
         adapter.onClick = { movie ->
             lifecycleScope.launch {
@@ -61,13 +67,13 @@ class MovieFragment : Fragment(), MovieClickListener, MovieContract.MovieView {
 
         binding.rvPlantList.setOnScrollChangeListener {  v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (binding.rvPlantList.canScrollVertically(1)) {
-                presenter.loadMovieList()
+//                presenter.loadMovieList()
             }
         }
     }
 
     override fun onMovieClick(movie: Movie) {
-        presenter.loadMovieDetailPage(movie, context)
+//        presenter.loadMovieDetailPage(movie, context)
     }
 
     override fun showMovieList(movie: List<Movie>) {
