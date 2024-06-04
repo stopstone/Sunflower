@@ -1,9 +1,7 @@
-package com.stopstone.sunflower.view
+package com.stopstone.sunflower.view.garden
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +13,7 @@ import com.stopstone.sunflower.storage.Storage
 import com.stopstone.sunflower.databinding.FragmentGardenBinding
 import com.stopstone.sunflower.presenter.MovieContract
 import com.stopstone.sunflower.presenter.MoviePresenter
+import com.stopstone.sunflower.view.MovieDetailActivity
 import com.stopstone.sunflower.view.movie.MovieAdapter
 
 

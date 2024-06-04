@@ -2,7 +2,6 @@ package com.stopstone.sunflower.view.movie
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.stopstone.sunflower.data.Movie
@@ -18,6 +17,7 @@ class MovieAdapter(
     private val onDataChangedListener: OnDataChangedListener?,
 ) : RecyclerView.Adapter<ViewHolder>() {
     private val items = mutableListOf<Movie>()
+    var onClick: (movie: Movie) -> Unit = {}
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position].viewType) {
@@ -29,8 +29,8 @@ class MovieAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
-            0 -> PlantViewHolder.from(parent)
-            1 -> GardenViewHolder.from(parent, onDataChangedListener)
+            0 -> MovieViewHolder(parent) {onClick(items[it])}
+            1 -> GardenViewHolder(parent) {onClick(items[it])}
             else -> throw IllegalArgumentException("Invalid ViewType")
         }
     }
@@ -43,7 +43,7 @@ class MovieAdapter(
         val item = items[position]
         with(holder) {
             when (this) {
-                is PlantViewHolder -> bind(item, listener)
+                is MovieViewHolder -> bind(item, listener)
                 is GardenViewHolder -> bind(item, listener)
             }
         }
@@ -55,11 +55,23 @@ class MovieAdapter(
         notifyDataSetChanged()
     }
 
-    class PlantViewHolder(private val binding: ItemMovieBinding) :
+    class MovieViewHolder(
+        private val parent: ViewGroup,
+        private val binding: ItemMovieBinding = ItemMovieBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        ),
+        val onClick: (index: Int) -> Unit,
+    ) :
         ViewHolder(binding.root) {
+        init {
+            binding.btnFavoriteImage.setOnClickListener {
+                onClick(adapterPosition)
+            }
+        }
 
         fun bind(item: Movie, listener: MovieClickListener) {
-            setFavoritePlantDate(item)
             itemView.setOnClickListener {
                 listener.onMovieClick(item)
             }
@@ -70,50 +82,29 @@ class MovieAdapter(
                 btnFavoriteImage.isSelected = item.favorite
             }
         }
-
-        private fun setFavoritePlantDate(movie: Movie) {
-
-            with(binding.btnFavoriteImage) {
-                setOnClickListener {
-//                    isSelected = !isSelected // 버튼 선택 반전
-//                    Storage.updateFavoriteStatus(movie)
-                    Storage.updateFavoriteStatus(movie).also {
-                        isSelected = Storage.movieList.first { it.title == movie.title }.favorite
-                    }
-
-                    if (isSelected) {
-                        Storage.insertGardenPlantData(Storage.movieList.first { it.title == movie.title })
-                    } else if (!isSelected) {
-                        Storage.deleteGardenPlantData(Storage.movieList.first { it.title == movie.title })
-                    }
-                }
-            }
-        }
-
-        companion object {
-            fun from(parent: ViewGroup): PlantViewHolder {
-                val binding = ItemMovieBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-                return PlantViewHolder(binding)
-            }
-        }
     }
 
     class GardenViewHolder(
-        private val binding: ItemGardenBinding,
-        private val onDataChangedListener: OnDataChangedListener?,
+        private val parent: ViewGroup,
+        private val binding: ItemGardenBinding = ItemGardenBinding.inflate(
+            LayoutInflater.from(
+                parent.context
+            ), parent, false
+        ),
+        val onClick: (index: Int) -> Unit,
     ) :
 
         ViewHolder(binding.root) {
+            init {
+                binding.btnFavoriteImage.setOnClickListener {
+                    onClick(adapterPosition)
+                }
+            }
 
         fun bind(
             item: Movie,
             listener: MovieClickListener,
         ) {
-            setFavoritePlantDate(binding, item)
             itemView.setOnClickListener {
                 listener.onMovieClick(item)
             }
@@ -127,39 +118,8 @@ class MovieAdapter(
             }
         }
 
-        private fun setFavoritePlantDate(binding: ItemGardenBinding, movie: Movie) {
-            with(binding.btnFavoriteImage) {
-                setOnClickListener {
-                    //isSelected = !isSelected // 버튼 선택 반전
-                    //Storage.updateFavoriteStatus(movie)
-                    Storage.updateFavoriteStatus(movie).also {
-                        isSelected = Storage.movieList.first { it.title == movie.title }.favorite
-                    } // 상태 업데이트 이후 리스트에서 해당 객체의 상태값을 다시 받아온다.
-                    // 상태가 지워지는 현상은 수정된 듯 히지만, 다른 방법이 있을 것 같다.
-
-                    when (isSelected) {
-                        true -> Storage.insertGardenPlantData(Storage.movieList.first { it.title == movie.title })
-                        false -> Storage.deleteGardenPlantData(Storage.movieList.first { it.title == movie.title })
-                    }
-                    onDataChangedListener?.onDataChanged()
-                }
-            }
-        }
-
         companion object {
             const val BASE_IMAGE = "https://image.tmdb.org/t/p/w500"
-            fun from(
-                parent: ViewGroup,
-                dataChangedListener: OnDataChangedListener?,
-            ): GardenViewHolder {
-                val binding =
-                    ItemGardenBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    )
-                return GardenViewHolder(binding, dataChangedListener)
-            }
         }
     }
 }

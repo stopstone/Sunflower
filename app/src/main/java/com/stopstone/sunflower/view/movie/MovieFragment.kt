@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.stopstone.sunflower.data.Movie
 import com.stopstone.sunflower.databinding.FragmentMovieBinding
 import com.stopstone.sunflower.listener.MovieClickListener
@@ -14,6 +15,7 @@ import com.stopstone.sunflower.presenter.MovieContract
 import com.stopstone.sunflower.presenter.MoviePresenter
 import com.stopstone.sunflower.storage.Storage
 import com.stopstone.sunflower.view.MovieDetailActivity
+import kotlinx.coroutines.launch
 
 class MovieFragment : Fragment(), MovieClickListener, MovieContract.MovieView {
     private var _binding: FragmentMovieBinding? = null
@@ -34,6 +36,23 @@ class MovieFragment : Fragment(), MovieClickListener, MovieContract.MovieView {
         super.onViewCreated(view, savedInstanceState)
         binding.rvPlantList.adapter = adapter
         presenter.loadMovieList()
+
+        adapter.onClick = { movie ->
+            lifecycleScope.launch {
+                val updateList = Storage.movieList.map {
+                    if (it.title == movie.title) {
+                        it.copy(favorite = !it.favorite)
+                    } else {
+                        it
+                    }
+                }
+                Storage.movieList.clear()
+                Storage.movieList.addAll(updateList)
+
+                adapter.updateData(Storage.movieList)
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
 
     override fun onResume() {
