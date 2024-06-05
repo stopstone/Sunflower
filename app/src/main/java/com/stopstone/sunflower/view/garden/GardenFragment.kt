@@ -51,10 +51,6 @@ class GardenFragment : Fragment(), MovieClickListener {
                 .map { it.copy(viewType = 1) }
             adapter.updateData(gardenList)
         }
-
-        adapter.onClick = {
-            viewModel.updateFavoriteStatus(it)
-        }
     }
 
     override fun onResume() {
@@ -66,5 +62,9 @@ class GardenFragment : Fragment(), MovieClickListener {
         val intent = Intent(context, MovieDetailActivity::class.java)
         intent.putExtra("data", movie)
         startActivity(intent)
+    }
+
+    override fun onFavoriteClick(movie: Movie) {
+        viewModel.updateFavoriteStatus(movie)
     }
 }

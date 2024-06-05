@@ -52,10 +52,6 @@ class MovieFragment : Fragment(), MovieClickListener {
         viewModel.movieList.observe(viewLifecycleOwner) {
             adapter.updateData(it)
         }
-
-        adapter.onClick = { movie ->
-            viewModel.updateFavoriteStatus(movie)
-        }
     }
 
     override fun onResume() {
@@ -72,5 +68,9 @@ class MovieFragment : Fragment(), MovieClickListener {
         val intent = Intent(context, MovieDetailActivity::class.java)
         intent.putExtra("data", movie)
         startActivity(intent)
+    }
+
+    override fun onFavoriteClick(movie: Movie) {
+        viewModel.updateFavoriteStatus(movie)
     }
 }

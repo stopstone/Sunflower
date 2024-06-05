@@ -14,7 +14,6 @@ class MovieAdapter(
     private val listener: MovieClickListener,
 ) : RecyclerView.Adapter<ViewHolder>() {
     private val items = mutableListOf<Movie>()
-    var onClick: (movie: Movie) -> Unit = {}
 
     override fun getItemViewType(position: Int): Int {
         return when (items[position].viewType) {
@@ -26,8 +25,8 @@ class MovieAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
-            0 -> MovieViewHolder(parent) {onClick(items[it])}
-            1 -> GardenViewHolder(parent) {onClick(items[it])}
+            0 -> MovieViewHolder(parent) { listener.onFavoriteClick(items[it]) }
+            1 -> GardenViewHolder(parent) { listener.onFavoriteClick(items[it]) }
             else -> throw IllegalArgumentException("Invalid ViewType")
         }
     }
@@ -92,11 +91,11 @@ class MovieAdapter(
     ) :
 
         ViewHolder(binding.root) {
-            init {
-                binding.btnFavoriteImage.setOnClickListener {
-                    onClick(adapterPosition)
-                }
+        init {
+            binding.btnFavoriteImage.setOnClickListener {
+                onClick(adapterPosition)
             }
+        }
 
         fun bind(
             item: Movie,
