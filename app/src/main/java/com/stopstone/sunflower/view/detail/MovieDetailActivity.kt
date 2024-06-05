@@ -5,13 +5,23 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.stopstone.sunflower.data.Movie
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.stopstone.sunflower.data.model.Movie
+import com.stopstone.sunflower.data.repository.detail.MovieDetailRepositoryImpl
 import com.stopstone.sunflower.databinding.ActivityPlantDetailBinding
 import com.stopstone.sunflower.extension.setImage
+import com.stopstone.sunflower.storage.Storage
 
 class MovieDetailActivity : AppCompatActivity() {
     private val binding: ActivityPlantDetailBinding by lazy { ActivityPlantDetailBinding.inflate(layoutInflater) }
-    private val viewModel: MovieDetailViewModel by viewModels<MovieDetailViewModel>()
+    private val viewModel: MovieDetailViewModel by viewModels {
+        viewModelFactory {
+            initializer {
+                MovieDetailViewModel(MovieDetailRepositoryImpl(Storage))
+            }
+        }
+    }
     private lateinit var movie: Movie
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +35,7 @@ class MovieDetailActivity : AppCompatActivity() {
             intent.getParcelableExtra("data")!!
         }
 
-        viewModel.setMovie(movie)
+        viewModel.setMovie(movie.id)
         setLayout()
 
         binding.btnFavoriteImage.setOnClickListener {

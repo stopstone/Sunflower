@@ -1,4 +1,4 @@
-package com.stopstone.sunflower.data
+package com.stopstone.sunflower.data.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

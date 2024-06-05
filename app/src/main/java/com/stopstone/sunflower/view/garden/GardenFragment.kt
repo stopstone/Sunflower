@@ -8,17 +8,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.stopstone.sunflower.listener.MovieClickListener
-import com.stopstone.sunflower.data.Movie
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.stopstone.sunflower.view.listener.MovieClickListener
+import com.stopstone.sunflower.data.model.Movie
+import com.stopstone.sunflower.data.repository.garden.GardenRepositoryImpl
 import com.stopstone.sunflower.databinding.FragmentGardenBinding
+import com.stopstone.sunflower.storage.Storage
 import com.stopstone.sunflower.view.detail.MovieDetailActivity
 import com.stopstone.sunflower.view.movie.MovieAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GardenFragment : Fragment(), MovieClickListener {
     private val adapter: MovieAdapter by lazy {
         MovieAdapter(this)
     }
-    private val viewModel: GardenViewModel by viewModels<GardenViewModel>()
+    private val viewModel: GardenViewModel by viewModels {
+        viewModelFactory {
+            initializer { GardenViewModel(GardenRepositoryImpl(Storage)) }
+        }
+    }
     private var _binding: FragmentGardenBinding? = null
     private val binding get() = _binding!!
 
@@ -45,6 +55,11 @@ class GardenFragment : Fragment(), MovieClickListener {
         adapter.onClick = {
             viewModel.updateFavoriteStatus(it)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchMovies()
     }
 
     override fun onMovieClick(movie: Movie) {

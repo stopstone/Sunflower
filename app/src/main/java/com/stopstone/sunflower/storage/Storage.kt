@@ -1,6 +1,6 @@
 package com.stopstone.sunflower.storage
 
-import com.stopstone.sunflower.data.Movie
+import com.stopstone.sunflower.data.model.Movie
 
 /*
     싱글톤패턴이란?

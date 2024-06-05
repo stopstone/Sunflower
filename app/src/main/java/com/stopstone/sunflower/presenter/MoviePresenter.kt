@@ -1,13 +1,8 @@
 package com.stopstone.sunflower.presenter
 
 import android.content.Context
-import com.stopstone.sunflower.data.Movie
-import com.stopstone.sunflower.data.MovieResponse
-import com.stopstone.sunflower.data.TMDBConnection
+import com.stopstone.sunflower.data.model.Movie
 import com.stopstone.sunflower.storage.Storage
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MoviePresenter(private val movieView: MovieContract.MovieView, private val storage: Storage) : MovieContract.MoviePresenter {
     private var startPage = 1
@@ -15,22 +10,22 @@ class MoviePresenter(private val movieView: MovieContract.MovieView, private val
 
     override fun loadMovieList() {
         // API 호출
-        TMDBConnection.movieService.getPopularMovies(startPage++)
-            .enqueue(object : Callback<MovieResponse> {
-                override fun onResponse(
-                    call: Call<MovieResponse>,
-                    response: Response<MovieResponse>
-                ) {
-                    response.body()?.results?.let {
-                        Storage.movieList.addAll(it)
-                        movieView.showMovieList(Storage.movieList)
-                    }
-                }
-
-                override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                    t.printStackTrace()
-                }
-            })
+//        TMDBConnection.movieService.getPopularMovies(startPage++)
+//            .enqueue(object : Callback<MovieResponse> {
+//                override fun onResponse(
+//                    call: Call<MovieResponse>,
+//                    response: Response<MovieResponse>
+//                ) {
+//                    response.body()?.results?.let {
+//                        Storage.movieList.addAll(it)
+//                        movieView.showMovieList(Storage.movieList)
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+//                    t.printStackTrace()
+//                }
+//            })
     }
 
     override fun loadMovieDetailPage(movie: Movie, context: Context?) {

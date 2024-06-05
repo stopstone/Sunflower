@@ -1,0 +1,46 @@
+package com.stopstone.sunflower.data.repository.movie
+
+import com.stopstone.sunflower.data.model.Movie
+import com.stopstone.sunflower.data.model.MovieResponse
+import com.stopstone.sunflower.data.remote.TMDBService
+import com.stopstone.sunflower.storage.Storage
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import javax.inject.Inject
+
+class MovieRepositoryImpl @Inject constructor(private val tMDBService: TMDBService, private val storage: Storage):
+    MovieRepository {
+    private var startPage = 1
+
+    override fun loadMovieList(callback: (List<Movie>) -> Unit) {
+        tMDBService.getPopularMovies(startPage++)
+            .enqueue(object : Callback<MovieResponse> {
+                override fun onResponse(
+                    call: Call<MovieResponse>,
+                    response: Response<MovieResponse>
+                ) {
+                    response.body()?.results?.let {
+                        storage.movieList.addAll(it)
+                        callback(Storage.movieList)
+                    }
+                }
+
+                override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                    t.printStackTrace()
+                }
+            })
+    }
+
+    override fun updateFavoriteStatus(movie: Movie) {
+        val updateList = storage.movieList.map {
+            if (it.id == movie.id) {
+                it.copy(favorite = !it.favorite)
+            } else {
+                it
+            }
+        }
+        storage.movieList.clear()
+        storage.movieList.addAll(updateList)
+    }
+}

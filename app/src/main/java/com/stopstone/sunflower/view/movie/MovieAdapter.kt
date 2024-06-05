@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.stopstone.sunflower.data.Movie
+import com.stopstone.sunflower.data.model.Movie
 import com.stopstone.sunflower.databinding.ItemGardenBinding
 import com.stopstone.sunflower.databinding.ItemMovieBinding
 import com.stopstone.sunflower.extension.setScaleImage
-import com.stopstone.sunflower.listener.MovieClickListener
+import com.stopstone.sunflower.view.listener.MovieClickListener
 
 class MovieAdapter(
     private val listener: MovieClickListener,

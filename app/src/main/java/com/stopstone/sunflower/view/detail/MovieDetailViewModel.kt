@@ -3,29 +3,37 @@ package com.stopstone.sunflower.view.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.stopstone.sunflower.data.Movie
-import com.stopstone.sunflower.storage.Storage
+import androidx.lifecycle.viewModelScope
+import com.stopstone.sunflower.data.model.Movie
+import com.stopstone.sunflower.data.repository.detail.MovieDetailRepositoryImpl
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MovieDetailViewModel : ViewModel() {
+@HiltViewModel
+class MovieDetailViewModel @Inject constructor(
+    private val repository: MovieDetailRepositoryImpl
+) : ViewModel() {
+
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie> get() = _movie
 
-    fun setMovie(movie: Movie) {
-        _movie.value = movie
+    fun setMovie(movieId: Int) {
+        viewModelScope.launch {
+            val fetchedMovie = repository.getMovieById(movieId).value
+            fetchedMovie?.let {
+                _movie.value = it
+            }
+        }
     }
 
     fun toggleFavorite() {
         val updatedMovie = _movie.value?.copy(favorite = !(_movie.value?.favorite ?: false))
         updatedMovie?.let { newMovie ->
             _movie.value = newMovie
-            updateMovieInStorage(newMovie)
-        }
-    }
-
-    private fun updateMovieInStorage(movie: Movie) {
-        val index = Storage.movieList.indexOfFirst { it.id == movie.id }
-        if (index != -1) {
-            Storage.movieList[index] = movie
+            viewModelScope.launch {
+                repository.updateMovie(newMovie)
+            }
         }
     }
 }

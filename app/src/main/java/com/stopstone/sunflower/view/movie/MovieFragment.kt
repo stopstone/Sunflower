@@ -7,16 +7,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.stopstone.sunflower.data.Movie
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.stopstone.sunflower.data.repository.movie.MovieRepositoryImpl
+import com.stopstone.sunflower.data.model.Movie
+import com.stopstone.sunflower.data.remote.TMDBService
 import com.stopstone.sunflower.databinding.FragmentMovieBinding
-import com.stopstone.sunflower.listener.MovieClickListener
+import com.stopstone.sunflower.view.listener.MovieClickListener
+import com.stopstone.sunflower.storage.Storage
 import com.stopstone.sunflower.view.detail.MovieDetailActivity
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MovieFragment : Fragment(), MovieClickListener {
     private var _binding: FragmentMovieBinding? = null
     private val binding get() = _binding!!
     private val adapter: MovieAdapter by lazy { MovieAdapter(this) }
-    private val viewModel: MovieViewModel by viewModels<MovieViewModel>()
+
+    @Inject
+    lateinit var tMDBService: TMDBService
+    private val viewModel: MovieViewModel by viewModels {
+        viewModelFactory {
+            initializer {
+                MovieViewModel(MovieRepositoryImpl(tMDBService, Storage))
+            }
+        }
+    }
 //    private val presenter: MoviePresenter by lazy { MoviePresenter(this, Storage) }
 
     override fun onCreateView(
