@@ -1,13 +1,14 @@
 package com.stopstone.sunflower.storage
 
 import com.stopstone.sunflower.data.model.Movie
+import javax.inject.Singleton
 
 /*
     싱글톤패턴이란?
     해당 코드는 왜 싱글톤으로 구현했는가?
     싱글톤의 종류
  */
-
+@Singleton
 object Storage {
     var movieList: MutableList<Movie> = mutableListOf()
 }

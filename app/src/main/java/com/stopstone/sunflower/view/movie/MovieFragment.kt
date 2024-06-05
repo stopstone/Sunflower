@@ -25,12 +25,12 @@ class MovieFragment : Fragment(), MovieClickListener {
     private val binding get() = _binding!!
     private val adapter: MovieAdapter by lazy { MovieAdapter(this) }
 
-    @Inject
-    lateinit var tMDBService: TMDBService
+    @Inject lateinit var tMDBService: TMDBService
+    @Inject lateinit var storage: Storage
     private val viewModel: MovieViewModel by viewModels {
         viewModelFactory {
             initializer {
-                MovieViewModel(MovieRepositoryImpl(tMDBService, Storage))
+                MovieViewModel(MovieRepositoryImpl(tMDBService, storage))
             }
         }
     }

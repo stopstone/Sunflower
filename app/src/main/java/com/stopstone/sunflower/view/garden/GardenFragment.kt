@@ -18,15 +18,24 @@ import com.stopstone.sunflower.storage.Storage
 import com.stopstone.sunflower.view.detail.MovieDetailActivity
 import com.stopstone.sunflower.view.movie.MovieAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
+/*
+* Android 클래스에 종속항목을 설정할 수 있습니다. (Activity, Fragment, Service, BroadcastReceiver, View 와 같은 클래스를 제공합니다.)
+* 이 밖에도 Application(@HiltAndroidApp), ViewModel(HiltViewModel)을 지원합니다.
+* 단, Hilt는 AppCompatActivity, ComponentActivity 를 확장하는 액티비티만 지원합니다.
+* 프래그먼트의 경우 androidx.fragment를 확장해야한 지원 가능합니다.
+* */
 class GardenFragment : Fragment(), MovieClickListener {
     private val adapter: MovieAdapter by lazy {
         MovieAdapter(this)
     }
+
+    @Inject lateinit var storage: Storage
     private val viewModel: GardenViewModel by viewModels {
         viewModelFactory {
-            initializer { GardenViewModel(GardenRepositoryImpl(Storage)) }
+            initializer { GardenViewModel(GardenRepositoryImpl(storage)) }
         }
     }
     private var _binding: FragmentGardenBinding? = null

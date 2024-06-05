@@ -10,6 +10,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
+
+/* 생성자에 @Inject를 추가해여 Hilt에 결함정보 제공*/
 class MovieViewModel @Inject constructor(private val repository: MovieRepositoryImpl) : ViewModel() {
     private val _movieList = MutableLiveData<List<Movie>>()
     val movieList: LiveData<List<Movie>> = _movieList
