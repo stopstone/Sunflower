@@ -2,32 +2,28 @@ package com.stopstone.sunflower.view.detail
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.stopstone.sunflower.data.model.Movie
-import com.stopstone.sunflower.data.repository.detail.MovieDetailRepositoryImpl
 import com.stopstone.sunflower.databinding.ActivityPlantDetailBinding
-import com.stopstone.sunflower.extension.setImage
-import com.stopstone.sunflower.storage.Storage
+import com.stopstone.sunflower.extension.loadImage
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MovieDetailActivity : AppCompatActivity() {
     private val binding: ActivityPlantDetailBinding by lazy { ActivityPlantDetailBinding.inflate(layoutInflater) }
-    private val viewModel: MovieDetailViewModel by viewModels {
-        viewModelFactory {
-            initializer {
-                MovieDetailViewModel(MovieDetailRepositoryImpl(Storage))
-            }
-        }
-    }
+    private val viewModel: MovieDetailViewModel by viewModels()
     private lateinit var movie: Movie
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        Log.d(TAG, "$TAG onCreate")
+        setContentView(binding.root).apply {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            ) //
+        }
 
         movie = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("data", Movie::class.java)!!
@@ -38,20 +34,24 @@ class MovieDetailActivity : AppCompatActivity() {
         viewModel.setMovie(movie.id)
         setLayout()
 
+        viewModel.movie.observe(this) { updatedMovie ->
+            movie = updatedMovie
+            binding.btnFavoriteImage.isSelected = movie.favorite
+        }
+
         binding.btnFavoriteImage.setOnClickListener {
             viewModel.toggleFavorite()
         }
 
-        viewModel.movie.observe(this) { updatedMovie ->
-            movie = updatedMovie
-            binding.btnFavoriteImage.isSelected = movie.favorite
+        binding.topAppBar.setNavigationOnClickListener {
+            finish()
         }
     }
 
     private fun setLayout() {
         with(binding) {
             tvPlantDetailName.text = movie.title
-            ivPlantDetailImage.setImage("$BASE_IMAGE${movie.posterPath}")
+            ivPlantDetailImage.loadImage("$BASE_IMAGE${movie.posterPath}")
             tvMovieRatingLabel.text = "release: ${movie.releaseDate}"
             tvPlantDetailDescription.text = movie.overview
             btnFavoriteImage.isSelected = movie.favorite == true
@@ -59,7 +59,6 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val TAG = "PlantDetailActivity"
         const val BASE_IMAGE = "https://image.tmdb.org/t/p/w500"
     }
 }

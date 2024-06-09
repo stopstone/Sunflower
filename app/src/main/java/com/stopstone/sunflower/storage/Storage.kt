@@ -1,6 +1,7 @@
 package com.stopstone.sunflower.storage
 
 import com.stopstone.sunflower.data.model.Movie
+import javax.inject.Inject
 import javax.inject.Singleton
 
 /*
@@ -8,8 +9,10 @@ import javax.inject.Singleton
     해당 코드는 왜 싱글톤으로 구현했는가?
     싱글톤의 종류
  */
+
+
 @Singleton
-object Storage {
+class Storage @Inject constructor() {
     var movieList: MutableList<Movie> = mutableListOf()
 }
 

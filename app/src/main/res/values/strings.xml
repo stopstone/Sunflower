@@ -6,4 +6,5 @@
     <string name="description_plant_image">식물 이미지</string>
     <string name="description_favorite_image">좋아요 버튼</string>
     <string name="label_rating">Rating</string>
+    <string name="invalid_tab_position">Invalid tab position</string>
 </resources>

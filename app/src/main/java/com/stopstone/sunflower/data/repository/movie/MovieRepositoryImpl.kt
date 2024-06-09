@@ -12,8 +12,10 @@ import javax.inject.Inject
 class MovieRepositoryImpl @Inject constructor(private val tMDBService: TMDBService, private val storage: Storage):
     MovieRepository {
     private var startPage = 1
+    private var callback: ((List<Movie>) -> Unit)? = null
 
     override fun loadMovieList(callback: (List<Movie>) -> Unit) {
+        this.callback = callback
         tMDBService.getPopularMovies(startPage++)
             .enqueue(object : Callback<MovieResponse> {
                 override fun onResponse(
@@ -22,7 +24,7 @@ class MovieRepositoryImpl @Inject constructor(private val tMDBService: TMDBServi
                 ) {
                     response.body()?.results?.let {
                         storage.movieList.addAll(it)
-                        callback(Storage.movieList)
+                        callback(storage.movieList)
                     }
                 }
 
@@ -42,5 +44,8 @@ class MovieRepositoryImpl @Inject constructor(private val tMDBService: TMDBServi
         }
         storage.movieList.clear()
         storage.movieList.addAll(updateList)
+        callback?.invoke(storage.movieList.toList())
+
+
     }
 }
