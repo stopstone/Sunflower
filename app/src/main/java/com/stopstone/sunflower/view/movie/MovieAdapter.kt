@@ -24,8 +24,25 @@ class MovieAdapter(private val listener: MovieClickListener) : RecyclerView.Adap
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
-            0 -> MovieViewHolder(parent, items, listener) // items를 넘겨주는 방식 말고 다른 방법을 생각할 것
-            1 -> GardenViewHolder(parent, items, listener)
+            0 -> MovieViewHolder(
+                ItemMovieBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                ),
+                items,
+                listener
+            ) // items를 넘겨주는 방식 말고 다른 방법을 생각할 것
+            1 -> GardenViewHolder(
+                ItemGardenBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                ),
+                items,
+                listener
+            )
+
             else -> throw IllegalArgumentException("Invalid ViewType")
         }
     }
@@ -48,14 +65,9 @@ class MovieAdapter(private val listener: MovieClickListener) : RecyclerView.Adap
 
     // 이렇게 되면 ClickListener는 한 번 불리지만, ViewHolder 생성 시 items를 계속 넘겨줘야 한다.
     class MovieViewHolder(
-        parent: ViewGroup,
+        private val binding: ItemMovieBinding,
         items: List<Movie>,
         listener: MovieClickListener,
-        private val binding: ItemMovieBinding = ItemMovieBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        ),
     ) : ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
@@ -76,14 +88,9 @@ class MovieAdapter(private val listener: MovieClickListener) : RecyclerView.Adap
     }
 
     class GardenViewHolder(
-        parent: ViewGroup,
+        private val binding: ItemGardenBinding,
         items: List<Movie>,
         listener: MovieClickListener,
-        private val binding: ItemGardenBinding = ItemGardenBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        ),
     ) : ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
