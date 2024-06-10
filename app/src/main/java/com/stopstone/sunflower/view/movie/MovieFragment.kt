@@ -31,7 +31,9 @@ class MovieFragment : Fragment(), MovieClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.loadMovieList()
         binding.rvPlantList.adapter = adapter
+
         viewModel.movieList.observe(viewLifecycleOwner) { movie ->
             adapter.updateData(movie)
         }
@@ -39,7 +41,6 @@ class MovieFragment : Fragment(), MovieClickListener {
 
     override fun onResume() {
         super.onResume()
-        viewModel.loadMovieList()
         binding.rvPlantList.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
             if (binding.rvPlantList.canScrollVertically(SCROLL_DIRECTION_DOWN)) {
                 viewModel.loadMovieList()

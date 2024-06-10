@@ -5,14 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.stopstone.sunflower.data.model.Movie
-import com.stopstone.sunflower.data.repository.detail.MovieDetailRepositoryImpl
+import com.stopstone.sunflower.data.repository.movie.MovieRepository
+import com.stopstone.sunflower.data.repository.movie.MovieRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(
-    private val repository: MovieDetailRepositoryImpl
+    private val repository: MovieRepository
 ) : ViewModel() {
 
     private val _movie = MutableLiveData<Movie>()

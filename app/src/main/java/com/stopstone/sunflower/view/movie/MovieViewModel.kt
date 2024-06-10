@@ -3,9 +3,8 @@ package com.stopstone.sunflower.view.movie
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.stopstone.sunflower.data.repository.movie.MovieRepositoryImpl
 import com.stopstone.sunflower.data.model.Movie
-import com.stopstone.sunflower.storage.Storage
+import com.stopstone.sunflower.data.repository.movie.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -13,7 +12,7 @@ import javax.inject.Inject
 
 /* 생성자에 @Inject를 추가해여 Hilt에 결함정보 제공*/
 class MovieViewModel @Inject constructor(
-    private val repository: MovieRepositoryImpl
+    private val repository: MovieRepository
 ) : ViewModel() {
     private val _movieList = MutableLiveData<List<Movie>>()
     val movieList: LiveData<List<Movie>> = _movieList

@@ -1,5 +1,7 @@
 package com.stopstone.sunflower.data.repository.movie
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.stopstone.sunflower.data.model.Movie
 import com.stopstone.sunflower.data.model.MovieResponse
 import com.stopstone.sunflower.data.remote.TMDBService
@@ -45,7 +47,18 @@ class MovieRepositoryImpl @Inject constructor(private val tMDBService: TMDBServi
         storage.movieList.clear()
         storage.movieList.addAll(updateList)
         callback?.invoke(storage.movieList.toList())
+    }
 
+    override fun getMovieById(movieId: Int): LiveData<Movie> {
+        val movie = storage.movieList.find { it.id == movieId }
+        return MutableLiveData(movie)
+    }
 
+    override fun updateMovie(movie: Movie) {
+        val index = storage.movieList.indexOfFirst { it.id == movie.id }
+        if (index != -1) {
+            storage.movieList[index] = movie
+            callback?.invoke(storage.movieList.toList())
+        }
     }
 }
