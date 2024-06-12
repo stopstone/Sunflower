@@ -81,7 +81,7 @@ class MovieAdapter(private val listener: MovieClickListener) : RecyclerView.Adap
         fun bind(item: Movie) {
             with(binding) {
                 tvPlantItemName.text = item.title
-                ivPlantItemImage.loadImage("${BASE_IMAGE}${item.posterPath}")
+                ivPlantItemImage.loadImage(item.posterPath)
                 btnFavoriteImage.isSelected = item.favorite
             }
         }
@@ -104,16 +104,11 @@ class MovieAdapter(private val listener: MovieClickListener) : RecyclerView.Adap
         fun bind(item: Movie) {
             with(binding) {
                 tvPlantItemName.text = item.title
-                ivPlantItemImage.loadImage("$BASE_IMAGE${item.posterPath}")
+                ivPlantItemImage.loadImage(item.posterPath)
                 val rating = "%.1f".format(item.voteAverage)
                 tvPlantItemMovieRating.text = "Rating: $rating"
                 btnFavoriteImage.isSelected = item.favorite
             }
         }
-
-    }
-
-    companion object {
-        const val BASE_IMAGE = "https://image.tmdb.org/t/p/w500"
     }
 }

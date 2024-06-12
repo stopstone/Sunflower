@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/ic_my_garden"
-            android:text="@string/tab_label_my_garden" />
+            android:text="@string/tab_label_my_movie" />
 
     </com.google.android.material.tabs.TabLayout>
 

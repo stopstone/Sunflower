@@ -41,9 +41,11 @@ class MovieFragment : Fragment(), MovieClickListener {
 
     override fun onResume() {
         super.onResume()
-        binding.rvPlantList.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if (binding.rvPlantList.canScrollVertically(SCROLL_DIRECTION_DOWN)) {
-                viewModel.loadMovieList()
+        if (!viewModel.isLocalSource) {
+            binding.rvPlantList.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+                if (binding.rvPlantList.canScrollVertically(SCROLL_DIRECTION_DOWN)) {
+                    viewModel.loadMovieList()
+                }
             }
         }
     }

@@ -4,23 +4,23 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.stopstone.sunflower.data.model.Movie
-import com.stopstone.sunflower.data.repository.garden.GardenRepositoryImpl
+import com.stopstone.sunflower.data.repository.movie.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 // GardenViewModel.kt
 @HiltViewModel
-class GardenViewModel @Inject constructor (private val movieRepository: GardenRepositoryImpl) : ViewModel() {
+class GardenViewModel @Inject constructor(private val repository: MovieRepository) : ViewModel() {
     private val _movieList = MutableLiveData<List<Movie>>()
     val movieList: LiveData<List<Movie>> get() = _movieList
 
-    fun fetchMovies() {
-        val movies = movieRepository.getMovieList()
-        _movieList.value = movies
+    fun loadMovies() {
+        repository.loadMovieList { movie ->
+            _movieList.value = movie
+        }
     }
 
     fun updateFavoriteStatus(movie: Movie) {
-        movieRepository.updateFavoriteStatus(movie)
-        _movieList.value = movieRepository.getMovieList()
+        repository.updateFavoriteStatus(movie)
     }
 }

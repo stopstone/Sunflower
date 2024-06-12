@@ -42,6 +42,7 @@ class GardenFragment : Fragment(), MovieClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.loadMovies()
         binding.rvGardenList.adapter = adapter
 
         viewModel.movieList.observe(viewLifecycleOwner) { movies ->
@@ -50,11 +51,6 @@ class GardenFragment : Fragment(), MovieClickListener {
                 .map { it.copy(viewType = 1) }
             adapter.updateData(gardenList)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.fetchMovies()
     }
 
     override fun onMovieClick(movie: Movie) {

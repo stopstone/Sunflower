@@ -2,40 +2,29 @@ package com.stopstone.sunflower.data.repository.movie
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.stopstone.sunflower.data.source.LocalDataSource
+import com.stopstone.sunflower.data.source.RemoteDataSource
 import com.stopstone.sunflower.data.model.Movie
-import com.stopstone.sunflower.data.model.MovieResponse
-import com.stopstone.sunflower.data.remote.TMDBService
 import com.stopstone.sunflower.storage.Storage
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
+import kotlin.random.Random
 
-class MovieRepositoryImpl @Inject constructor(private val tMDBService: TMDBService, private val storage: Storage):
+class MovieRepositoryImpl @Inject constructor(
+    private val localDataSource: LocalDataSource,
+    private val remoteDataSource: RemoteDataSource,
+    private val storage: Storage
+) :
     MovieRepository {
-    private var startPage = 1
     private var callback: ((List<Movie>) -> Unit)? = null
+    override val isLocalSource = Random.nextBoolean()
 
     override fun loadMovieList(callback: (List<Movie>) -> Unit) {
         this.callback = callback
-        tMDBService.getPopularMovies(startPage++)
-            .enqueue(object : Callback<MovieResponse> {
-                override fun onResponse(
-                    call: Call<MovieResponse>,
-                    response: Response<MovieResponse>
-                ) {
-                    response.body()?.results?.let {
-                        storage.movieList.addAll(it)
-                        callback(storage.movieList)
-                    }
-                }
-
-                override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                    t.printStackTrace()
-                }
-            })
+        when(Random.nextBoolean()) {
+            true -> localDataSource
+            false -> remoteDataSource
+        }.apply { this.getMovieList(callback) }
     }
-
     override fun updateFavoriteStatus(movie: Movie) {
         val updateList = storage.movieList.map {
             if (it.id == movie.id) {

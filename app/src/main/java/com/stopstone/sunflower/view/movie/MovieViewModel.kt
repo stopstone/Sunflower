@@ -16,13 +16,19 @@ class MovieViewModel @Inject constructor(
 ) : ViewModel() {
     private val _movieList = MutableLiveData<List<Movie>>()
     val movieList: LiveData<List<Movie>> = _movieList
+    val isLocalSource = repository.isLocalSource
+
+    private fun loadMovies() {
+        repository.loadMovieList { movies ->
+            _movieList.value = movies
+        }
+    }
 
     fun loadMovieList() {
-        repository.loadMovieList { _movieList.value = it }
+        loadMovies()
     }
 
     fun updateFavoriteStatus(movie: Movie) {
         repository.updateFavoriteStatus(movie)
     }
-
 }

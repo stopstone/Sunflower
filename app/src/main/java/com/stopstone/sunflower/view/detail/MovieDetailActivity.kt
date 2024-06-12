@@ -51,7 +51,7 @@ class MovieDetailActivity : AppCompatActivity() {
     private fun setLayout() {
         with(binding) {
             tvPlantDetailName.text = movie.title
-            ivPlantDetailImage.loadImage("$BASE_IMAGE${movie.posterPath}")
+            ivPlantDetailImage.loadImage(movie.posterPath)
             tvMovieRatingLabel.text = "release: ${movie.releaseDate}"
             tvPlantDetailDescription.text = movie.overview
             btnFavoriteImage.isSelected = movie.favorite == true
